@@ -82,17 +82,15 @@ void cadastrarLivros(struct Livro acervo[], int tamanho) {
 
     printf("Código: ");
     scanf("%d", &acervo[i].codigo);
-    
-    while (getchar() != '\n'); // Limpa o buffer do teclado
+    getchar(); // Limpa o buffer do teclado após ler o inteiro 
 
     printf("Título: ");
     fgets(acervo[i].titulo, 50, stdin);
     acervo[i].titulo[strcspn(acervo[i].titulo, "\n")] = '\0'; // Remove o '\n' do final da string
 
     printf("Autor: ");
-    fgets(acervo[i].autor, 30, stdin);
+    fgets(acervo[i].autor, 50, stdin);
     acervo[i].autor[strcspn(acervo[i].autor, "\n")] = '\0';
-
 
     printf("Área: ");
     fgets(acervo[i].area, 30, stdin);
@@ -100,10 +98,10 @@ void cadastrarLivros(struct Livro acervo[], int tamanho) {
 
     printf("Ano: ");
     scanf("%d", &acervo[i].anoPublicacao);
-    fflush(stdin);
+   getchar();  // Limpa o buffer do teclado após ler o inteiro
 
     printf("Editora: ");
-    fgets(acervo[i].editora, 30, stdin);
+    fgets(acervo[i].editora, 50, stdin);
     acervo[i].editora[strcspn(acervo[i].editora, "\n")] = '\0';
   }
 
