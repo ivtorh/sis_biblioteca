@@ -82,7 +82,7 @@ void cadastrarLivros(struct Livro acervo[], int tamanho) {
 
     printf("Código: ");
     scanf("%d", &acervo[i].codigo);
-    getchar(); // Limpa o buffer do teclado após ler o inteiro 
+    while (getchar() != '\n'); // Limpa o buffer do teclado após ler o inteiro 
 
     printf("Título: ");
     fgets(acervo[i].titulo, 50, stdin);
@@ -98,7 +98,7 @@ void cadastrarLivros(struct Livro acervo[], int tamanho) {
 
     printf("Ano: ");
     scanf("%d", &acervo[i].anoPublicacao);
-   getchar();  // Limpa o buffer do teclado após ler o inteiro
+    while (getchar() != '\n'); // Limpa o buffer do teclado após ler o inteiro
 
     printf("Editora: ");
     fgets(acervo[i].editora, 50, stdin);
