@@ -74,39 +74,80 @@ int main() {
 // FUNÇÃO 1: CADASTRAR LIVROS
 //----------------------------------------------------------------
 void cadastrarLivros(struct Livro acervo[], int tamanho) {
-  int i;
-  printf("\n=== CADASTRO DE LIVROS ===\n");
+    int i;
+    char linha[256];    // buffer para ler cada linha (suficiente)
+    int codigoTemp, anoTemp;
+    printf("\n=== CADASTRO DE LIVROS ===\n");
 
-  for (i = 0; i < tamanho; i++) {
-    printf("\n--- Livro %d ---\n", i + 1);
+    for (i = 0; i < tamanho; i++) {
+        printf("\n--- Livro %d ---\n", i + 1);
 
-    printf("Código: ");
-    scanf("%d", &acervo[i].codigo);
-    while (getchar() != '\n'); // Limpa o buffer do teclado após ler o inteiro 
+        // ---------- LER CÓDIGO (como string -> inteiro) ----------
+        while (1) {
+            printf("Código: ");
+            if (!fgets(linha, sizeof(linha), stdin)) {
+                // erro de I/O — tenta novamente
+                clearerr(stdin);
+                continue;
+            }
+            // remove \n
+            linha[strcspn(linha, "\n")] = '\0';
+            if (linha[0] == '\0') {
+                // se vazio, pede novamente
+                printf("Codigo nao pode ser vazio. Tente novamente.\n");
+                continue;
+            }
+            if (sscanf(linha, "%d", &codigoTemp) == 1) {
+                acervo[i].codigo = codigoTemp;
+                break;
+            } else {
+                printf("Entrada invalida. Digite um numero inteiro para o codigo.\n");
+            }
+        }
 
-    printf("Título: ");
-    fgets(acervo[i].titulo, 50, stdin);
-    acervo[i].titulo[strcspn(acervo[i].titulo, "\n")] = '\0'; // Remove o '\n' do final da string
+        // ---------- LER TITULO ----------
+        printf("Título: ");
+        fgets(acervo[i].titulo, sizeof(acervo[i].titulo), stdin);
+        acervo[i].titulo[strcspn(acervo[i].titulo, "\n")] = '\0';
 
-    printf("Autor: ");
-    fgets(acervo[i].autor, 50, stdin);
-    acervo[i].autor[strcspn(acervo[i].autor, "\n")] = '\0';
+        // ---------- LER AUTOR ----------
+        printf("Autor: ");
+        fgets(acervo[i].autor, sizeof(acervo[i].autor), stdin);
+        acervo[i].autor[strcspn(acervo[i].autor, "\n")] = '\0';
 
-    printf("Área: ");
-    fgets(acervo[i].area, 30, stdin);
-    acervo[i].area[strcspn(acervo[i].area, "\n")] = '\0';
+        // ---------- LER AREA ----------
+        printf("Área: ");
+        fgets(acervo[i].area, sizeof(acervo[i].area), stdin);
+        acervo[i].area[strcspn(acervo[i].area, "\n")] = '\0';
 
-    printf("Ano: ");
-    scanf("%d", &acervo[i].anoPublicacao);
-    while (getchar() != '\n'); // Limpa o buffer do teclado após ler o inteiro
+        // ---------- LER ANO (string -> inteiro) ----------
+        while (1) {
+            printf("Ano de Publicacao: ");
+            if (!fgets(linha, sizeof(linha), stdin)) {
+                clearerr(stdin);
+                continue;
+            }
+            linha[strcspn(linha, "\n")] = '\0';
+            if (linha[0] == '\0') {
+                printf("Ano nao pode ser vazio. Tente novamente.\n");
+                continue;
+            }
+            if (sscanf(linha, "%d", &anoTemp) == 1) {
+                acervo[i].anoPublicacao = anoTemp;
+                break;
+            } else {
+                printf("Entrada invalida. Digite um numero inteiro para o ano.\n");
+            }
+        }
 
-    printf("Editora: ");
-    fgets(acervo[i].editora, 50, stdin);
-    acervo[i].editora[strcspn(acervo[i].editora, "\n")] = '\0';
-  }
+        // ---------- LER EDITORA ----------
+        printf("Editora: ");
+        fgets(acervo[i].editora, sizeof(acervo[i].editora), stdin);
+        acervo[i].editora[strcspn(acervo[i].editora, "\n")] = '\0';
+    }
 
-  printf("\nCadastro concluído com sucesso!\n");
-};
+    printf("\nCadastro concluído com sucesso!\n");
+}
 
 //----------------------------------------------------------------
 // FUNÇÃO 2: IMPRIMIR LIVROS
